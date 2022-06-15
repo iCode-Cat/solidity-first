@@ -1,4 +1,5 @@
 // contract test code will go here
+const { equal } = require('assert');
 const assert = require('assert');
 const ganache = require('ganache-cli');
 const Web3 = require('web3');
@@ -24,5 +25,10 @@ describe('Inbox', () => {
   it('has a default message', async () => {
     const message = await inbox.methods.message().call();
     assert.equal(message, 'Hi there!');
+  });
+  it('can change the message', async () => {
+    const msg = 'Juju';
+    await inbox.methods.setMessage(msg).send({ from: accounts[0] });
+    assert.equal(await inbox.methods.message().call(), msg);
   });
 });
